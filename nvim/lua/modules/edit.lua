@@ -1,11 +1,13 @@
 local edit = {}
 edit["max397574/better-escape.nvim"] = {
+    lazy = true,
     config = function()
         require("better_escape").setup()
     end,
     event = "InsertEnter",
 }
 edit["phaazon/hop.nvim"] = {
+    lazy = true,
     -- as = "hop",
     config = function()
         require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
@@ -13,6 +15,7 @@ edit["phaazon/hop.nvim"] = {
     cmd = { "HopLine", "HopLineStart", "HopWord", "HopPattern", "HopChar1", "HopChar2" },
 }
 edit["PHSix/faster.nvim"] = {
+    lazy = true,
     event = "CursorMoved",
     -- event = { "VimEnter *" },
     config = function() -- Specifies code to run after this plugin is loaded
@@ -23,32 +26,39 @@ edit["PHSix/faster.nvim"] = {
     end,
 }
 edit["machakann/vim-highlightedyank"] = {
+    lazy = true,
     event = "TextYankPost",
 }
 edit["b3nj5m1n/kommentary"] = {
+    lazy = true,
     config = require("configs.others").kommentary,
     event = { "BufReadPre", "BufNewFile" },
 }
 edit["tpope/vim-surround"] = {
+    lazy = true,
     event = "BufRead",
 }
 edit["edluffy/specs.nvim"] = {
+    lazy = true,
     -- event = { "BufReadPre", "BufNewFile" },
     event = "CursorMoved",
     config = require("configs.others").specs,
 }
 edit["simrat39/symbols-outline.nvim"] = {
+    lazy = true,
     cmd = { "SymbolsOutline", "SymbolsOutlineOpen" },
     config = require("configs.others").symbols,
     -- after = "nvim-lspconfig",
 }
 edit["abecodes/tabout.nvim"] = {
-    -- wants = { "nvim-treesitter", "nvim-treesitter-context" },
-    wants = { "nvim-treesitter" },
-    after = { "nvim-cmp" },
+    lazy = true,
+    -- dependencies = { "nvim-treesitter", "nvim-treesitter-context" },
+    dependencies = { "nvim-treesitter" },
+    -- after = { "nvim-cmp" },
     config = require("configs.others").tabout,
 }
 edit["romainl/vim-cool"] = {
+    lazy = true,
     opt = true,
     -- event = { "CursorMoved", "InsertEnter" },
     event = { "BufReadPre", "BufNewFile" },

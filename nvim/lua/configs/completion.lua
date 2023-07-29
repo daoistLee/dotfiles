@@ -18,9 +18,9 @@ return function()
     local lspkind = require("lspkind")
     local symbol_map = require("configs.lspkind")
 
-    if not packer_plugins["cmp-under-comparator"].loaded then
-        vim.cmd([[packadd cmp-under-comparator]])
-    end
+    -- if not packer_plugins["cmp-under-comparator"].loaded then
+    --     vim.cmd([[packadd cmp-under-comparator]])
+    -- end
     local cmp = require("cmp")
     cmp.setup({
         formatting = {
@@ -55,14 +55,14 @@ return function()
         },
         sorting = {
             comparators = {
-                cmp.config.compare.offset,
-                cmp.config.compare.exact,
-                cmp.config.compare.score,
-                require("cmp-under-comparator").under,
-                cmp.config.compare.kind,
-                cmp.config.compare.sort_text,
-                cmp.config.compare.length,
-                cmp.config.compare.order,
+                -- cmp.config.compare.offset,
+                -- cmp.config.compare.exact,
+                -- cmp.config.compare.score,
+                -- require("cmp-under-comparator").under,
+                -- cmp.config.compare.kind,
+                -- cmp.config.compare.sort_text,
+                -- cmp.config.compare.length,
+                -- cmp.config.compare.order,
             },
         },
         confirm_opts = {
@@ -115,7 +115,7 @@ return function()
                     fallback()
                 end
             end, { "i", "s" }),
-            ["<M-K>"] = cmp.mapping(function(fallback)
+            ["<M-k>"] = cmp.mapping(function(fallback)
                 if cmp.visible() then
                     cmp.select_prev_item()
                 elseif require("luasnip").jumpable(-1) then

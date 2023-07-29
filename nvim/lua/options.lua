@@ -38,7 +38,7 @@ return {
     ttimeoutlen    = 0,
     termguicolors  = true,
     completeopt    = "menuone,noinsert",
-    clipboard      = "unnamedplus",
+    -- clipboard      = "unnamedplus",
     splitbelow     = true,
     splitright     = true,
     spell          = false,

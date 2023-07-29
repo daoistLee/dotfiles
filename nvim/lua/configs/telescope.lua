@@ -3,7 +3,7 @@ return function()
     if not status then
         return
     end
-    vim.cmd([[packadd popup.nvim]])
+    -- vim.cmd([[packadd popup.nvim]])
     -- local previewers = require("telescope.previewers")
 
     local actions = require("telescope.actions")

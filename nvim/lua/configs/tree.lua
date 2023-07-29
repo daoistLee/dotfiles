@@ -90,7 +90,7 @@ return function()
         },
         view = {
             width = 30,
-            side = "right",
+            side = "left",
             mappings = {
                 custom_only = false,
                 list = {},

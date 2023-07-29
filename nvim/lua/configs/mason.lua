@@ -50,8 +50,8 @@ Mason.mason = function()
             --
             -- Example: { "--proxy", "https://proxyserver" }
             install_args = {
-                "--proxy",
-                "https://127.0.0.1.7890",
+                -- "--proxy",
+                -- "https://127.0.0.1.7890",
             },
         },
 
@@ -79,7 +79,8 @@ Mason.lspconfig = function()
     local DEFAULT_SETTINGS = {
         -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "sumneko_lua" }
         -- This setting has no relation with the `automatic_installation` setting.
-        ensure_installed = { "sumneko_lua", "clangd", "pyright" },
+        -- ensure_installed = { "sumneko_lua", "clangd", "pyright" },
+        ensure_installed = { "lua_ls", "clangd"  },
         -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
         -- This setting has no relation with the `ensure_installed` setting.
         -- Can either be:

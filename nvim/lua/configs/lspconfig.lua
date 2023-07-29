@@ -24,7 +24,7 @@ return function()
     )
 
     local custom_capabilities = vim.lsp.protocol.make_client_capabilities()
-    custom_capabilities = require("cmp_nvim_lsp").update_capabilities(custom_capabilities)
+    custom_capabilities = require("cmp_nvim_lsp").default_capabilities(custom_capabilities)
     custom_capabilities.textDocument.completion.completionItem.snippetSupport = true
     custom_capabilities.textDocument.completion.completionItem.preselectSupport = true
     custom_capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
@@ -64,63 +64,103 @@ return function()
     end
 
     local lspconfig = require("lspconfig")
+    local function switch_source_header_splitcmd(bufnr, splitcmd)
+        bufnr = lspconfig.util.validate_bufnr(bufnr)
+        local clangd_client = lspconfig.util.get_active_client_by_name(bufnr, "clangd")
+        local params = { uri = vim.uri_from_bufnr(bufnr) }
+        if clangd_client then
+            clangd_client.request("textDocument/switchSourceHeader", params, function(err, result)
+                if err then
+                    error(tostring(err))
+                end
+                if not result then
+                    vim.notify(
+                        "Corresponding file can’t be determined",
+                        vim.log.levels.ERROR,
+                        { title = "LSP Error!" }
+                    )
+                    return
+                end
+                vim.api.nvim_command(splitcmd .. " " .. vim.uri_to_fname(result))
+            end)
+        else
+            vim.notify(
+                "Method textDocument/switchSourceHeader is not supported by any active server on this buffer",
+                vim.log.levels.ERROR,
+                { title = "LSP Error!" }
+            )
+        end
+    end
     -- local server_path = vim.fn.stdpath("data") .. "/lsp_servers"
     local server_path = vim.fn.stdpath("data") .. "/mason/"
 
     local servers = {}
-    servers["pylsp"] = {
-        cmd = {
-            server_path .. "bin/pylsp",
-            -- server_path .. "packages/python-lsp-server/venv/bin/python3 -m" .. " python-lsp-server",
-            -- "--stdio",
-        },
-        on_attach = function(client, bufnr)
-            custom_attach(client, bufnr)
-        end,
-        capabilities = custom_capabilities,
-        flags = {
-            debounce_text_changes = 150,
-        },
-        root_dir = custom_cwd,
-        -- root_dir = lspconfig.util.root_pattern("__pycache__", ".git", ".vscode"),
-        settings = {
-            python = {
-                plugins = {
-                    autopep8 = {
-                        enable = true
-                    },
-                    flake8 = {
-                        enable = true
-                    }
-                }
-                -- analysis = {
-                --     useLibraryCodeForTypes = false,
-                --     autoImportCompletions = true,
-                --     autoSearchPaths = true,
-                --     diagnosticMode = "openFilesOnly",
-                --     -- diagnosticMode = "workspace",
-                --     typeCheckingMode = "basic",
-                -- },
-            },
-        },
-    }
-    -- servers["jedi_language_server"] = {
+    -- servers["pylsp"] = {
     --     cmd = {
-    --         server_path .. "bin/jedi-language-server",
+    --         server_path .. "bin/pylsp",
+    --         -- server_path .. "packages/python-lsp-server/venv/bin/python3 -m" .. " python-lsp-server",
+    --         -- "--stdio",
     --     },
-    --     filetypes = { "python" },
+    --     on_attach = function(client, bufnr)
+    --         custom_attach(client, bufnr)
+    --     end,
+    --     capabilities = custom_capabilities,
+    --     flags = {
+    --         debounce_text_changes = 150,
+    --     },
     --     root_dir = custom_cwd,
-    --     single_file_support = true,
+    --     -- root_dir = lspconfig.util.root_pattern("__pycache__", ".git", ".vscode"),
+    --     settings = {
+    --         python = {
+    --             plugins = {
+    --                 autopep8 = {
+    --                     enable = true,
+    --                 },
+    --                 flake8 = {
+    --                     enable = true,
+    --                 },
+    --             },
+    --             -- analysis = {
+    --             --     useLibraryCodeForTypes = false,
+    --             --     autoImportCompletions = true,
+    --             --     autoSearchPaths = true,
+    --             --     diagnosticMode = "openFilesOnly",
+    --             --     -- diagnosticMode = "workspace",
+    --             --     typeCheckingMode = "basic",
+    --             -- },
+    --         },
+    --     },
     -- }
+    servers["jedi_language_server"] = {
+        cmd = {
+            server_path .. "bin/jedi-language-server",
+        },
+        filetypes = { "python" },
+        root_dir = custom_cwd,
+        single_file_support = true,
+    }
     servers["clangd"] = {
         on_attach = function(client, bufnr)
-            client.server_capabilities.document_formatting = false
-            vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-s>", "<Cmd>ClangdSwitchSourceHeader<cr>", { noremap = true })
+            -- client.server_capabilities.document_formatting = false
+            -- vim.api.nvim_buf_set_keymap(bufnr, "n", "<C-s>", "<Cmd>ClangdSwitchSourceHeader<cr>", { noremap = true })
             custom_attach(client, bufnr)
         end,
         capabilities = custom_capabilities,
         cmd = {
             server_path .. "bin/clangd",
+            -- "--background-index",
+            -- -- "-std=c++11",
+            -- "--pch-storage=memory",
+            -- "--query-driver=/usr/bin/g++,/usr/bin/gcc",
+            -- "--compile-commands-dir=build",
+            -- "--clang-tidy",
+            -- -- "--clang-tidy-checks=performance-*,bugprone-*",
+            -- "--all-scopes-completion",
+            -- "--cross-file-rename",
+            -- "--completion-style=detailed",
+            -- -- "--suggest-missing-includes",
+            -- "--header-insertion-decorators",
+            -- "--header-insertion=iwyu",
         },
         args = {
             "--background-index",
@@ -131,14 +171,34 @@ return function()
             -- "--clang-tidy-checks=performance-*,bugprone-*",
             "--all-scopes-completion",
             "--completion-style=detailed",
-            "--query-driver=/usr/bin/clang++",
+            "--query-driver=/usr/bin/g++,/usr/bin/gcc",
             "--suggest-missing-includes",
             "--header-insertion=iwyu",
         },
         flags = {
             debounce_text_changes = 150,
         },
-        filetypes = { "c", "cpp", "objc", "objcpp" },
+        commands = {
+            ClangdSwitchSourceHeader = {
+                function()
+                    switch_source_header_splitcmd(0, "edit")
+                end,
+                description = "Open source/header in current buffer",
+            },
+            ClangdSwitchSourceHeaderVSplit = {
+                function()
+                    switch_source_header_splitcmd(0, "vsplit")
+                end,
+                description = "Open source/header in a new vsplit",
+            },
+            ClangdSwitchSourceHeaderSplit = {
+                function()
+                    switch_source_header_splitcmd(0, "split")
+                end,
+                description = "Open source/header in a new split",
+            },
+        },
+        -- filetypes = { "c", "cpp", "objc", "objcpp" },
         single_file_support = true,
         -- fallbackFlags = {
         --     "-std=c++11",
@@ -146,12 +206,12 @@ return function()
         -- },
         -- root_dir = custom_cwd,
         -- root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git", ".vscode"),
-        root_dir = lspconfig.util.root_pattern("CmakeLists.txt", ".git", ".vscode"),
+        root_dir = lspconfig.util.root_pattern("CMakeLists.txt", ".git", ".vscode", "README.md"),
     }
     local runtime_path = vim.split(package.path, ";")
     table.insert(runtime_path, "lua/?.lua")
     table.insert(runtime_path, "lua/?/init.lua") -- table.insert(runtime_path, "lua/?/init.lua")
-    servers["sumneko_lua"] = {
+    servers["lua_ls"] = {
         on_attach = function(client, bufnr)
             custom_attach(client, bufnr)
         end,
@@ -195,6 +255,27 @@ return function()
                 },
             },
         },
+    }
+    servers["jdtls"] = {
+        on_attach = function(client, bufnr)
+            custom_attach(client, bufnr)
+        end,
+        capabilities = custom_capabilities,
+        cmd = {
+            server_path .. "bin/jdtls",
+            "-configuration",
+            "/home/daoist/.cache/jdtls/config",
+            "-data",
+            "/home/daoist/.cache/jdtls/workspace",
+        },
+        filetypes = { "java" },
+        init_options = {
+            jvm_args = {},
+            workspace = "/home/daoist/.cache/jdtls/workspace",
+        },
+        -- root_dir = vim.fn.getcwd,
+        root_dir = custom_cwd,
+        single_file_support = true,
     }
     for name, opt in pairs(servers) do
         if opt then

@@ -26,9 +26,9 @@ end
 local function load_options()
     vim.g.python_host_skip_check = 1
     vim.g.python3_host_skip_check = 1
+    -- vim.g.python_host_prog = "/usr/bin/python3"
     -- vim.g.python3_host_prog = "/usr/bin/python3"
     vim.g.python3_host_prog = "~/.local/share/nvim/mason/packages/python-lsp-server/venv/bin/python3"
-    -- vim.g.python_host_prog = "/usr/bin/python3"
     -- vim.g.python3_host_prog = "~/.conda/envs/tools/bin/python"
     -- vim.g.vimspector_enable_mappings ='VISUAL_STUDIO'
     -- vim.g.fcitx5_remote = "/usr/bin/fcitx5-remote"
@@ -61,6 +61,8 @@ load_disable()
 load_options()
 load_map()
 
-local plugins = require("plugins")
-plugins.ensure_plugins()
-plugins.load_compile()
+-- local plugins = require("plugins")
+-- plugins.ensure_plugins()
+-- plugins.load_compile()
+
+local lazy =  require("pack")
