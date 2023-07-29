@@ -1,0 +1,192 @@
+# 自动刷新
+live_config_reload: true
+# Tab 缩进
+tabspaces: 4
+# 背景透明度
+# background_opacity: 0.85
+# window_opacity: 0.75
+dynamic_title: true
+
+window:
+  # 窗口大小
+  dimensions:
+    columns: 120
+    lines: 60
+
+  # 边缘空白
+  padding:
+    x: 10
+    y: 10
+  dynamic_padding: false
+  startup_mode: Maximized
+  # 窗口修饰
+  # - full: 有边界+标题栏
+  # - none: 无边界+标题栏
+  # decorations: none
+  # full or none or (macOS) transparent or buttonless
+  decorations: full
+  # 透明度：0 透明，1 不透明
+  opacity: 0.80
+
+scrolling:
+  # 历史保留行数
+  history: 2000
+
+  # 每次滚动行数
+  multiplier: 5
+
+  # 每次滚动行数（分屏时）
+  faux_multiplier: 100
+
+  # 自动滚动至最新行
+  auto_scroll: true
+
+
+font:
+  size: 12
+  normal:
+    family: Monego 
+    style: Regular
+  # normal:
+  #   family: 'Ubuntu  Mono Nerd Font ' 
+  #   style: Regular
+  # normal:
+  #   family: 'Inconsolatalgc Nerd Font ' 
+  #   style: Regular
+  # normal:
+  #   family: 'Hack Nerd Font' 
+  #   style: Regular
+  # normal:
+  #    family: 'FuraCode Nerd Font Mono'
+  #    style: Regular
+# font:
+#   size: 12 
+#   normal:
+#     family: monaco
+#     style: Regular
+#   normal:
+#     family: 'FuraCode Nerd Font'
+#     style: Regular
+#   bold:
+#     family: 'FuraCode Nerd Font'
+#     style: Bold
+#   italic:
+#     family: 'FuraCode Nerd Font'
+#     style: Italic
+#   bold_italic:
+#     family: 'FuraCode Nerd Font'
+#     style: Bold Italic
+
+# 细描边
+use_thin_strokes: false
+
+shell:
+  program: /bin/zsh
+
+# # Colors (One Dark)
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x1e2127'
+#     foreground: '0xabb2bf'
+
+#   # Normal colors
+#   normal:
+#     black:   '0x1e2127'
+#     red:     '0xe06c75'
+#     green:   '0x98c379'
+#     yellow:  '0xd19a66'
+#     blue:    '0x61afef'
+#     magenta: '0xc678dd'
+#     cyan:    '0x56b6c2'
+#     white:   '0xabb2bf'
+
+#   # Bright colors
+#   bright:
+#     black:   '0x5c6370'
+#     red:     '0xe06c75'
+#     green:   '0x98c379'
+#     yellow:  '0xd19a66'
+#     blue:    '0x61afef'
+#     magenta: '0xc678dd'
+#     cyan:    '0x56b6c2'
+#     white:   '0xffffff'
+# # Colors (Ayu Dark)
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x0A0E14'
+#     foreground: '0xB3B1AD'
+
+#   # Normal colors
+#   normal:
+#     black:   '0x01060E'
+#     red:     '0xEA6C73'
+#     green:   '0x91B362'
+#     yellow:  '0xF9AF4F'
+#     blue:    '0x53BDFA'
+#     magenta: '0xFAE994'
+#     cyan:    '0x90E1C6'
+#     white:   '0xC7C7C7'
+
+#   # Bright colors
+#   bright:
+#     black:   '0x686868'
+#     red:     '0xF07178'
+#     green:   '0xC2D94C'
+#     yellow:  '0xFFB454'
+#     blue:    '0x59C2FF'
+#     magenta: '0xFFEE99'
+#     cyan:    '0x95E6CB'
+#     white:   '0xFFFFFF'
+#
+
+
+# KDE Breeze (Ported from Konsole)
+colors:
+  # Default colors
+  primary:
+    background: '#232627'
+    foreground: '#fcfcfc'
+
+    dim_foreground: '#eff0f1'
+    bright_foreground: '#ffffff'
+    dim_background: '#31363b'
+    bright_background: '#000000'
+
+  # Normal colors
+  normal:
+    black: '#232627'
+    red: '#ed1515'
+    green: '#11d116'
+    yellow: '#f67400'
+    blue: '#1d99f3'
+    magenta: '#9b59b6'
+    cyan: '#1abc9c'
+    white: '#fcfcfc'
+
+  # Bright colors
+  bright:
+    black: '#7f8c8d'
+    red: '#c0392b'
+    green: '#1cdc9a'
+    yellow: '#fdbc4b'
+    blue: '#3daee9'
+    magenta: '#8e44ad'
+    cyan: '#16a085'
+    white: '#ffffff'
+
+  # Dim colors
+  dim:
+    black: '#31363b'
+    red: '#783228'
+    green: '#17a262'
+    yellow: '#b65619'
+    blue: '#1b668f'
+    magenta: '#614a73'
+    cyan: '#186c60'
+    white: '#63686d'
+
+key_bindings:
+  - { key: V, mods: Control|Shift, action: Paste }
+  - { key: C, mods: Control|Shift, action: Copy }
